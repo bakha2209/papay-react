@@ -9,12 +9,14 @@ import { Events } from "./events";
 import "../../../css/home.css";
 
 export function HomePage() {
-    return <div className="homepage">
-        <Statistics />
-        <TopRestaurants/>
-        <BestRestaurants/>
-        <BestDishes/>
-        <Advertisements/>
-        <Events/>
+  return (
+    <div className="homepage">
+      <Statistics />
+      <TopRestaurants />
+      <BestRestaurants />
+      <BestDishes />
+      <Advertisements />
+      <Events />
     </div>
+  );
 }

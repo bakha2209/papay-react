@@ -12,17 +12,17 @@ export function Statistics() {
             <Box className="static_num">12</Box>
             <Box className="static_text">Restaurants</Box>
           </Stack>
-          <Marginer direction="vertical" height="64" width="2" bg="#E3C080"/>
+          <Marginer direction="vertical" height="64" width="2" bg="#E3C080" />
           <Stack className="static_box">
             <Box className="static_num">8</Box>
             <Box className="static_text">Years Experience</Box>
           </Stack>
-          <Marginer direction="vertical" height="64" width="2" bg="#E3C080"/>
+          <Marginer direction="vertical" height="64" width="2" bg="#E3C080" />
           <Stack className="static_box">
             <Box className="static_num">50+</Box>
             <Box className="static_text">Menu ovqatlar</Box>
           </Stack>
-          <Marginer direction="vertical" height="64" width="2" bg="#E3C080"/>
+          <Marginer direction="vertical" height="64" width="2" bg="#E3C080" />
           <Stack className="static_box">
             <Box className="static_num">200+</Box>
             <Box className="static_text">Foydalanuvchilar</Box>
