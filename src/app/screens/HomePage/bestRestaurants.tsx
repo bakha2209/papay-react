@@ -7,9 +7,8 @@ import {
   IconButton,
   Typography,
   Link,
-  
 } from "@mui/joy";
-import {Button, Container, Box, Stack } from "@mui/material";
+import { Button, Container, Box, Stack } from "@mui/material";
 import React from "react";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import CallIcon from "@mui/icons-material/Call";
@@ -17,13 +16,13 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export function BestRestaurants() {
   return (
-    <div className="top_restaurant_frame">
+    <div className="best_restaurant_frame">
       <img
         src="icons/line_angel.svg"
         style={{
           position: "absolute",
           left: "6%",
-          transform: "rotate(90degree)",
+          transform: "rotate(90deg)",
         }}
       />
       <Container sx={{ paddingTop: "153px" }}>
@@ -375,7 +374,9 @@ export function BestRestaurants() {
             justifyContent={"flex-end"}
             style={{ width: "100%", marginTop: "16px" }}
           >
-            <Button style={{background: "#1976d2", color: "#FFFFFF"}}>Barchasini Ko'rish</Button>
+            <Button style={{ background: "#1976d2", color: "#FFFFFF" }}>
+              Barchasini Ko'rish
+            </Button>
           </Stack>
         </Stack>
       </Container>
