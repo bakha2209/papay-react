@@ -89,3 +89,10 @@
     margin-top: 43px;
     margin: 16px;
 }
+
+.homepage .best_restaurant_frame {
+    width: 100%;
+    height: 755px;
+    display: flex;
+    background: #0b0e11;
+}
