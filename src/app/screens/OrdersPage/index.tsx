@@ -5,10 +5,11 @@ import TabContext from "@mui/lab/TabContext";
 import Tab from "@mui/material/Tab";
 import Tablist from "@mui/lab/TabList";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import TabList from "@mui/lab/TabList";
+
 import PausedOrders from "../../components/orders/pausedOrders";
 import ProcessOrders from "../../components/orders/processOrders";
 import FinishedOrders from "../../components/orders/finishedOrders";
+import TabList from "@mui/lab/TabList";
 
 export function OrdersPage() {
   // INITIALIZATIONS
