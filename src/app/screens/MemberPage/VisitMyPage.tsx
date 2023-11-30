@@ -20,13 +20,12 @@ import { MemberFollowers } from "./memberFollowers";
 import { MemberFollowing } from "./memberFollowing";
 import { MySettings } from "./mySettings";
 
-
-export function VisitMyPage(props: any) {
+export function VisitMyPage(_props: any) {
   //INITIALIZIATION
-  const [value, setValue] = useState("6");
+  const [value, setValue] = useState("3");
 
   // HANDLERS
-  const handleChange = (event: any, newValue: string) => {
+  const handleChange = (_event: any, newValue: string) => {
     setValue(newValue);
   };
 
@@ -40,7 +39,7 @@ export function VisitMyPage(props: any) {
                 <TabPanel value="1">
                   <Box className="menu_name">Mening Maqolalarim</Box>
                   <Box className="menu_content">
-                    <MemberPosts/>
+                    <MemberPosts />
                     <Stack
                       sx={{ my: "40px" }}
                       direction={"row"}
@@ -92,7 +91,9 @@ export function VisitMyPage(props: any) {
 
                 <TabPanel value={"6"}>
                   <Box className={"menu_name"}>Ma'lumotlarni O'zgartirish</Box>
-                  <Box className={"menu_content"}><MySettings /></Box>
+                  <Box className={"menu_content"}>
+                    <MySettings />
+                  </Box>
                 </TabPanel>
               </Box>
             </Stack>
@@ -174,20 +175,20 @@ export function VisitMyPage(props: any) {
                     style={{ flexDirection: "column" }}
                     value={"2"}
                     component={() => (
-                        <div className={`menu_box ${value}`}>
-                            <img src="/icons/group.svg" alt="" />
-                            <span>Follower</span>
-                        </div>
+                      <div className={`menu_box ${value}`}>
+                        <img src="/icons/group.svg" alt="" />
+                        <span>Follower</span>
+                      </div>
                     )}
                   />
-                   <Tab
+                  <Tab
                     style={{ flexDirection: "column" }}
                     value={"3"}
                     component={() => (
-                        <div className={`menu_box ${value}`}>
-                            <img src="/icons/user.svg" alt="" />
-                            <span>Following</span>
-                        </div>
+                      <div className={`menu_box ${value}`}>
+                        <img src="/icons/user.svg" alt="" />
+                        <span>Following</span>
+                      </div>
                     )}
                   />
                 </TabList>
