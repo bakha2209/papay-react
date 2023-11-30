@@ -19,10 +19,11 @@ import { MemberPosts } from "./memberPosts";
 import { MemberFollowers } from "./memberFollowers";
 import { MemberFollowing } from "./memberFollowing";
 import { MySettings } from "./mySettings";
+import TViewer from "../../components/tuiEditor/TViewver";
 
 export function VisitOtherPage(_props: any) {
   //INITIALIZIATION
-  const [value, setValue] = useState("2");
+  const [value, setValue] = useState("4");
 
   // HANDLERS
   const handleChange = (_event: any, newValue: string) => {
@@ -81,7 +82,9 @@ export function VisitOtherPage(_props: any) {
 
                 <TabPanel value={"4"}>
                   <Box className={"menu_name"}>Tanlangan Maqola</Box>
-                  <Box className={"menu_content"}></Box>
+                  <Box className={"menu_content"}>
+                  <TViewer/>
+                  </Box>
                 </TabPanel>
               </Box>
             </Stack>
@@ -129,7 +132,7 @@ export function VisitOtherPage(_props: any) {
                       <Tab
                         style={{ flexDirection: "column" }}
                         value={"4"}
-                        component={(e) => (
+                        component={() => (
                           <Button
                             variant="contained"
                             style={{ backgroundColor: "#f70909b8" }}
@@ -142,7 +145,7 @@ export function VisitOtherPage(_props: any) {
                       <Tab
                         style={{ flexDirection: "column" }}
                         value={"4"}
-                        component={(e) => (
+                        component={() => (
                           <Button
                             variant="contained"
                             style={{ backgroundColor: "#30945e" }}
