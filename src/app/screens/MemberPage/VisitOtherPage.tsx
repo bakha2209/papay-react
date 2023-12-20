@@ -168,7 +168,7 @@ export function VisitOtherPage(_props: any) {
                     style={{ flexDirection: "column" }}
                     value={"1"}
                     component={() => (
-                      <div className={`menu_box ${value}`}>
+                      <div className={`menu_box ${value}`} onClick={() => setValue("1")}>
                         <img src="/icons/pencil.svg" alt="" />
                         <span>Maqolalarim</span>
                       </div>
@@ -178,7 +178,7 @@ export function VisitOtherPage(_props: any) {
                     style={{ flexDirection: "column" }}
                     value={"2"}
                     component={() => (
-                      <div className={`menu_box ${value}`}>
+                      <div className={`menu_box ${value}`} onClick={() => setValue("2")}>
                         <img src="/icons/group.svg" alt="" />
                         <span>Follower</span>
                       </div>
@@ -188,7 +188,7 @@ export function VisitOtherPage(_props: any) {
                     style={{ flexDirection: "column" }}
                     value={"3"}
                     component={() => (
-                      <div className={`menu_box ${value}`}>
+                      <div className={`menu_box ${value}`} onClick={() => setValue("3")}>
                         <img src="/icons/user.svg" alt="" />
                         <span>Following</span>
                       </div>
