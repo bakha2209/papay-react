@@ -7,12 +7,17 @@ import {
   Stack,
   dividerClasses,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 export function NavbarHome(props: any) {
   // INITIALIZATIONS
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [value, setValue] = useState(true)
+
+  useEffect(() => {
+    setCount(count+1)
+  }, [value])
   return (
     <div className="format home_navbar">
       <Container>
@@ -101,7 +106,7 @@ export function NavbarHome(props: any) {
                   background: "#1976d2",
                   color: "#ffffff",
                 }}
-                onClick={() => setCount(count+1) }
+                onClick={() => setValue(!value) }
               >
                 RO'YXATDAN O'TISH
               </Button>
