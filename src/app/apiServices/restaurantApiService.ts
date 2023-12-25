@@ -2,7 +2,7 @@ import axios from "axios";
 import assert from "assert";
 
 import { Definer } from "../lib/Definer";
-import { serviceApi } from "../lib/config";
+import { serverApi } from "../lib/config";
 import { Restaurant } from "../../types/user";
 import { SearchObj } from "../../types/others";
 
@@ -10,7 +10,7 @@ class RestaurantApiService {
   private readonly path: string;
 
   constructor() {
-    this.path = serviceApi;
+    this.path = serverApi;
   }
 
   async getTopRestaurants() {
@@ -20,8 +20,8 @@ class RestaurantApiService {
       assert.ok(result, Definer.general_err1);
 
       console.log("state:", result.data.state);
-      const top_restaurants: Restaurant[]=result.data.data
-      return top_restaurants
+      const top_restaurants: Restaurant[] = result.data.data;
+      return top_restaurants;
     } catch (err: any) {
       console.log(`ERROR ::: getTopRestaurants ${err.message}`);
       throw err;
@@ -35,8 +35,8 @@ class RestaurantApiService {
       assert.ok(result, Definer.general_err1);
 
       console.log("state:", result.data.state);
-      const restaurants: Restaurant[]=result.data.data
-      return restaurants
+      const restaurants: Restaurant[] = result.data.data;
+      return restaurants;
     } catch (err: any) {
       console.log(`ERROR ::: getRestaurants ${err.message}`);
       throw err;

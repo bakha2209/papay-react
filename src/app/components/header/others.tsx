@@ -71,6 +71,7 @@ import {
                 <Button
                   variant="contained"
                   style={{ color: "#ffffff", background: "#1976d2" }}
+                  onClick={props.handleLoginOpen}
                 >
                   KIRISH
                 </Button>

@@ -12,7 +12,7 @@ import { Restaurant } from "../../../types/user";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
 import { Product } from "../../../types/product";
 import ProductApiService from "../../apiServices/productApiService";
-import { serviceApi } from "../../lib/config";
+import { serverApi } from "../../lib/config";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
@@ -44,24 +44,32 @@ export function BestDishes() {
           <Box className="category_title">Trenddagi Ovqatlar</Box>
           <Stack sx={{ mt: "43px" }} flexDirection={"row"}>
             {trendProducts.map((product: Product) => {
-              const image_path = `${serviceApi}/${product.product_images[0]}`;
+              const image_path = `${serverApi}/${product.product_images[0]}`;
               const size_volume =
                 product.product_collection === "drink"
                   ? product.product_volume + "l"
                   : product.product_size + " size";
               return (
                 <Box className="dish_box">
-                  <Stack className="dish_img" style={{
-                       backgroundImage: `url(${image_path})`,
-                    }}>
+                  <Stack
+                    className="dish_img"
+                    style={{
+                      backgroundImage: `url(${image_path})`,
+                    }}
+                  >
                     <div className="dish_sale">{size_volume}</div>
                     <div className="view_btn">
                       Batafsil ko'rish{" "}
-                      <img src={"/icons/arrow_right.svg"} style={{ marginLeft: "9px" }} />
+                      <img
+                        src={"/icons/arrow_right.svg"}
+                        style={{ marginLeft: "9px" }}
+                      />
                     </div>
                   </Stack>
                   <Stack className="dish_desc">
-                    <span className="dish_title_text">{product.product_name}</span>
+                    <span className="dish_title_text">
+                      {product.product_name}
+                    </span>
                     <span className="dish_desc_text">
                       <MonetizationOn /> {product.product_price}
                     </span>
