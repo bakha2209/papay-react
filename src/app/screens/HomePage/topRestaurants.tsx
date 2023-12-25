@@ -97,7 +97,7 @@ export function TopRestaurants() {
                         <Favorite
                           style={{
                             fill:
-                              ele?.me_liked //i should check here
+                              ele?.me_liked && ele?.me_liked[0]?.my_favorite //i should check here
                                 ? "red"
                                 : "white",
                           }}

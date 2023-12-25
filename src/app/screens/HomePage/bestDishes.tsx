@@ -51,8 +51,8 @@ export function BestDishes() {
                   : product.product_size + " size";
               return (
                 <Box className="dish_box">
-                  <Stack className="dish_img" sx={{
-                      backgroundImage: `url(${image_path})`,
+                  <Stack className="dish_img" style={{
+                       backgroundImage: `url(${image_path})`,
                     }}>
                     <div className="dish_sale">{size_volume}</div>
                     <div className="view_btn">
