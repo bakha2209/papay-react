@@ -15,7 +15,10 @@ import { retrieveTopRestaurants } from "./selector";
 import { createSelector } from "reselect";
 import { Restaurant } from "../../../types/user";
 import { serverApi } from "../../lib/config";
-import { sweetErrorHandling } from "../../lib/sweetAlert";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../lib/sweetAlert";
 import assert from "assert";
 import { Definer } from "../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
@@ -31,15 +34,15 @@ const topRestaurantRetriever = createSelector(
 
 export function TopRestaurants() {
   /**INITIALIZATIONS */
-  const history = useHistory()
+  const history = useHistory();
   const { topRestaurants } = useSelector(topRestaurantRetriever);
   console.log("topRestaurants:", topRestaurants);
   const refs: any = useRef([]);
 
   /**HANDLERS */
   const chosenRestaurantHandler = (id: string) => {
-    history.push(`/restaurant/${id}`)
-  }
+    history.push(`/restaurant/${id}`);
+  };
 
   const targetLikeTop = async (e: any, id: string) => {
     try {
@@ -59,6 +62,8 @@ export function TopRestaurants() {
         e.target.style.fill = "white";
         refs.current[like_result.like_ref_id].innerHTML--;
       }
+
+      await sweetTopSmallSuccessAlert("success", 700, false);
     } catch (err: any) {
       console.log("targetLikeTop, ERROR:", err);
       sweetErrorHandling(err).then();
@@ -75,6 +80,7 @@ export function TopRestaurants() {
               return (
                 <CssVarsProvider key={ele._id}>
                   <Card
+                    onClick={() => chosenRestaurantHandler(ele._id)}
                     sx={{
                       minHeight: 430,
                       width: 325,
@@ -129,6 +135,9 @@ export function TopRestaurants() {
                           bottom: 45,
                           transform: "translateY(50%)",
                           color: "rgba(0,0,0,.4)",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
                         }}
                       >
                         <Favorite
