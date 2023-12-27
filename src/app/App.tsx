@@ -23,7 +23,7 @@ import { serverApi } from "./lib/config";
 import { sweetFailureProvider, sweetTopSmallSuccessAlert } from "./lib/sweetAlert";
 import { Definer } from "./lib/Definer";
 import MemberApiService from "./apiServices/memberApiService";
-//import "../app/apiServices/verify"
+import "../app/apiServices/verify"
 
 function App() {
   /**INITIALIZATION */
