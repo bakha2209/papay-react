@@ -19,6 +19,7 @@ import { sweetErrorHandling } from "../../lib/sweetAlert";
 import assert from "assert";
 import { Definer } from "../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
+import { useHistory } from "react-router-dom";
 
 // REDUX SELECTOR
 const topRestaurantRetriever = createSelector(
@@ -30,12 +31,15 @@ const topRestaurantRetriever = createSelector(
 
 export function TopRestaurants() {
   /**INITIALIZATIONS */
-
+  const history = useHistory()
   const { topRestaurants } = useSelector(topRestaurantRetriever);
   console.log("topRestaurants:", topRestaurants);
   const refs: any = useRef([]);
 
   /**HANDLERS */
+  const chosenRestaurantHandler = (id: string) => {
+    history.push(`/restaurant/${id}`)
+  }
 
   const targetLikeTop = async (e: any, id: string) => {
     try {
@@ -52,7 +56,7 @@ export function TopRestaurants() {
         e.target.style.fill = "red";
         refs.current[like_result.like_ref_id].innerHTML++;
       } else {
-        e.target.style.fill = "red";
+        e.target.style.fill = "white";
         refs.current[like_result.like_ref_id].innerHTML--;
       }
     } catch (err: any) {
