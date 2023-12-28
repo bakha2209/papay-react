@@ -132,7 +132,8 @@ export function NavbarHome(props: any) {
               anchorOrigin={{horizontal: 'right',vertical: 'bottom'}}
             >
               <MenuItem 
-              onClick={props.handleLogOutRequest}
+              onClick={props.handleLogOutRequest
+              .}
               >
                 <ListItemIcon>
                   <Logout fontSize="small" style={{color: "blue"}}/>
