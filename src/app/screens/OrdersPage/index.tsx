@@ -9,11 +9,44 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PausedOrders from "../../components/orders/pausedOrders";
 import ProcessOrders from "../../components/orders/processOrders";
 import FinishedOrders from "../../components/orders/finishedOrders";
+import { Order } from "../../../types/orders";
 import TabList from "@mui/lab/TabList";
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import {
+  retrieveChosenRestaurant,
+  retrieveRandomRestaurants,
+  retrieveTargetProducts,
+  retrieveTargetRestaurants,
+} from "../RestaurantPage/selector";
+import { createSelector } from "reselect";
+import { Restaurant } from "../../../types/user";
+import { serverApi } from "../../lib/config";
+import { Dispatch } from "@reduxjs/toolkit";
+import {
+  setPausedOrders,
+  setProcessOrders,
+  setFinishedOrders,
+} from "../OrdersPage/slice";
+import { useHistory, useParams } from "react-router-dom";
+
+
+// REDUX SLICE
+const actionDispatch = (dispach: Dispatch) => ({
+  setPausedOrders: (data: Order[]) => dispach(setPausedOrders(data)),
+  setProcessOrders: (data: Order[]) => dispach(setProcessOrders(data)),
+  setFinishedOrders: (data: Order[]) => dispach(setFinishedOrders(data)),
+});
 
 export function OrdersPage() {
   // INITIALIZATIONS
   const [value, setValue] = useState("1");
+  const { setPausedOrders, setProcessOrders, setFinishedOrders } =
+    actionDispatch(useDispatch());
+
+  useEffect(()=> {}, [])  
+
+  
 
   // HANDLERS
   const handleChange = (event: any, newValue: string) => {
@@ -32,8 +65,6 @@ export function OrdersPage() {
             <Box className="order_nav_frame">
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList
-                  
-                  
                   onChange={handleChange}
                   aria-label="basic tabs example"
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -96,10 +127,22 @@ export function OrdersPage() {
                 justifyContent={"space-between"}
                 marginTop={"35px"}
               >
-                <img src="/icons/western_union.svg" style={{width:"38px", height:"25px"}} />
-                <img src="/icons/paypal.svg" style={{width:"38px", height:"25px"}} />
-                <img src="/icons/western_union.svg" style={{width:"38px", height:"25px"}} />
-                <img src="/icons/paypal.svg" style={{width:"38px", height:"25px"}} />
+                <img
+                  src="/icons/western_union.svg"
+                  style={{ width: "38px", height: "25px" }}
+                />
+                <img
+                  src="/icons/paypal.svg"
+                  style={{ width: "38px", height: "25px" }}
+                />
+                <img
+                  src="/icons/western_union.svg"
+                  style={{ width: "38px", height: "25px" }}
+                />
+                <img
+                  src="/icons/paypal.svg"
+                  style={{ width: "38px", height: "25px" }}
+                />
               </Box>
             </Box>
           </Box>
