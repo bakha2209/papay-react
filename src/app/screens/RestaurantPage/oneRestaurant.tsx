@@ -37,7 +37,10 @@ import RestaurantApiService from "../../apiServices/restaurantApiService";
 import assert from "assert";
 import { Definer } from "../../lib/Definer";
 import MemberApiService from "../../apiServices/memberApiService";
-import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../lib/sweetAlert";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../lib/sweetAlert";
 //others
 
 // REDUX SLICE
@@ -86,7 +89,7 @@ export function OneRestaurant() {
       restaurant_mb_id: restaurant_id,
       product_collection: "dish",
     });
-  const [productRebuild, setProductRebuild] = useState<Date>(new Date())
+  const [productRebuild, setProductRebuild] = useState<Date>(new Date());
 
   useEffect(() => {
     const restaurantService = new RestaurantApiService();
@@ -95,12 +98,17 @@ export function OneRestaurant() {
       .then((data) => setRandomRestaurants(data))
       .catch((err) => console.log(err));
 
+    restaurantService
+      .getChosenRestaurant(chosenRestaurantId)
+      .then((data) => setChosenRestaurant(data))
+      .catch((err) => console.log(err));
+
     const productService = new ProductApiService();
     productService
       .getTargetProducts(targetProductSearchObj)
       .then((data) => setTargetProducts(data))
       .catch((err) => console.log(err));
-  }, [targetProductSearchObj, productRebuild]);
+  }, [targetProductSearchObj, productRebuild, chosenRestaurantId]);
 
   /**HANDLERS */
   const chosenRestaurantHandler = (id: string) => {
@@ -121,6 +129,10 @@ export function OneRestaurant() {
     setTargetProductSearchObj({ ...targetProductSearchObj });
   };
 
+  const chosenDishHandler = (id: string) => {
+    history.push(`/restaurant/dish/${id}`)
+  }
+
   const targetLikeProduct = async (e: any) => {
     try {
       assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
@@ -133,7 +145,7 @@ export function OneRestaurant() {
       assert.ok(like_result, Definer.general_err1);
 
       await sweetTopSmallSuccessAlert("success", 700, false);
-      setProductRebuild(new Date())
+      setProductRebuild(new Date());
     } catch (err: any) {
       console.log("targetLikeProduct, ERROR:", err);
       sweetErrorHandling(err).then();
@@ -145,7 +157,7 @@ export function OneRestaurant() {
         <Stack flexDirection={"column"} alignItems={"center"}>
           <Stack className="avatar_big_box">
             <Box className={"top_text"}>
-              <p>Texas De Brazil Restaurant</p>
+              <p>{chosenRestaurant?.mb_nick} Restaurant</p>
               <Box className={"Single_search_big_box"}>
                 <form className="Single_search_form" action="">
                   <input
@@ -423,11 +435,11 @@ export function OneRestaurant() {
         >
           <Box
             className={"about_left"}
-            sx={{ backgroundImage: `url(/restaurant/texas-de-brazil.webp)` }}
+            sx={{ backgroundImage: `url(${serverApi}/${chosenRestaurant?.mb_image})` }}
           >
             <div className="about_left_desc">
-              <span>Burak</span>
-              <p>Eng mazzali oshxona</p>
+              <span>{chosenRestaurant?.mb_nick}</span>
+              <p>{chosenRestaurant?.mb_description}</p>
             </div>
           </Box>
           <Box className={"about_right"}>
