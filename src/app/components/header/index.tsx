@@ -16,7 +16,6 @@ import { NavLink } from "react-router-dom";
 import Basket from "./basket";
 
 export function NavbarHome(props: any) {
-  
   return (
     <div className="format home_navbar">
       <Container>
@@ -46,12 +45,12 @@ export function NavbarHome(props: any) {
             </Box>
             {props.verifiedMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to={"/orders"} activeClassName="underline">
-                Buyurtma
-              </NavLink>
-            </Box>
+                <NavLink to={"/orders"} activeClassName="underline">
+                  Buyurtma
+                </NavLink>
+              </Box>
             ) : null}
-            
+
             <Box className="hover-line" onClick={props.setPath}>
               <NavLink to={"/community"} activeClassName="underline">
                 Jamiyat
@@ -69,7 +68,12 @@ export function NavbarHome(props: any) {
                 Yordam
               </NavLink>
             </Box>
-            <Basket/>
+            <Basket
+              cartItems={props.cartItems}
+              onAdd={props.onAdd}
+              onRemove={props.onRemove}
+              onDelete={props.onDelete}
+            />
             {!props.verifiedMemberData ? (
               <Box>
                 <Button
@@ -119,14 +123,12 @@ export function NavbarHome(props: any) {
                   },
                 },
               }}
-              transformOrigin = {{horizontal: 'right',vertical: 'top' }}
-              anchorOrigin={{horizontal: 'right',vertical: 'bottom'}}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem 
-              onClick={props.handleLogOutRequest}
-              >
+              <MenuItem onClick={props.handleLogOutRequest}>
                 <ListItemIcon>
-                  <Logout fontSize="small" style={{color: "blue"}}/>
+                  <Logout fontSize="small" style={{ color: "blue" }} />
                 </ListItemIcon>
                 Logout
               </MenuItem>
@@ -145,9 +147,7 @@ export function NavbarHome(props: any) {
             <Box className="define_restaurant">
               The Authentic Restaurant & Cafe
             </Box>
-            <Box className="timeline_service">
-              24 soat xizmatingizdamiz.
-            </Box>
+            <Box className="timeline_service">24 soat xizmatingizdamiz.</Box>
             <Box sx={{ mt: "90px" }}>
               {!props.verifiedMemberData ? (
                 <Button
