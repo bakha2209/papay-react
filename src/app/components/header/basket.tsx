@@ -10,7 +10,7 @@ import { serverApi } from "../../lib/config";
 import { sweetErrorHandling } from "../../lib/sweetAlert";
 import assert from "assert";
 import { Definer } from "../../lib/Definer";
-import OrderApiService from "../../apiServices/orerApiService";
+import OrderApiService from "../../apiServices/odrerApiService";
 import { useHistory } from "react-router-dom";
 
 export default function Basket(props: any) {
@@ -45,6 +45,7 @@ export default function Basket(props: any) {
       onDeleteAll()
       handleClose()
 
+      props.setOrderRebuild(new Date())
       history.push("/orders")
     } catch(err: any) {
       console.log(err)
