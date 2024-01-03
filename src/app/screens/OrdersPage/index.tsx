@@ -20,7 +20,7 @@ import {
   retrieveTargetRestaurants,
 } from "../RestaurantPage/selector";
 import { createSelector } from "reselect";
-import { Restaurant } from "../../../types/user";
+import { Member, Restaurant } from "../../../types/user";
 import { serverApi } from "../../lib/config";
 import { Dispatch } from "@reduxjs/toolkit";
 import {
@@ -43,6 +43,7 @@ export function OrdersPage(props: any) {
   const [value, setValue] = useState("1");
   const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
+  const verifiedMemberData: Member | null = props.verifiedMemberData;
 
   useEffect(() => {
     const orderService = new OrderApiService();
@@ -58,7 +59,6 @@ export function OrdersPage(props: any) {
       .getMyOrders("finished")
       .then((data) => setFinishedOrders(data))
       .catch((err) => console.log(err));
-  
   }, [props.orderRebuild]);
 
   // HANDLERS
@@ -89,9 +89,9 @@ export function OrdersPage(props: any) {
               </Box>
             </Box>
             <Stack className="order_main_content">
-              <PausedOrders setOrderRebuild={props.setOrderRebuild}/>
-              <ProcessOrders setOrderRebuild={props.setOrderRebuild}/>
-              <FinishedOrders setOrderRebuild={props.setOrderRebuild}/>
+              <PausedOrders setOrderRebuild={props.setOrderRebuild} />
+              <ProcessOrders setOrderRebuild={props.setOrderRebuild} />
+              <FinishedOrders setOrderRebuild={props.setOrderRebuild} />
             </Stack>
           </TabContext>
         </Stack>
@@ -104,24 +104,33 @@ export function OrdersPage(props: any) {
               alignItems={"center"}
             >
               <div className="order_user_img">
-                <img src="/auth/13.jpg" className="order_user_avatar" />
+                <img
+                  src={verifiedMemberData?.mb_image}
+                  className="order_user_avatar"
+                />
 
                 <Box className="order_user_icon_box">
                   <img
                     src="/icons/default_img.svg"
-                    // className="order_user_avatar"
+                    //className="order_user_prof_img"
                   />
                 </Box>
               </div>
-              <h1 className="order_user_name">Bakha_sila</h1>
-              <p className="order_user_prof">Foydalanuvchi</p>
+              <h1 className="order_user_name">
+                {verifiedMemberData?.mb_nick}
+              </h1>
+              <p className="order_user_prof">
+                {verifiedMemberData?.mb_type ?? "Foydalanuvchi"}
+              </p>
               <img
                 src="/icons/line_blue.png"
                 style={{ marginTop: "40px", width: "100%" }}
               />
               <Box className={"order_user_address"}>
                 <img src="/icons/location.svg" alt="" />
-                <p className="spec_address_text">Seoul</p>
+                <p className="spec_address_text">
+                  {verifiedMemberData?.mb_address ?? "manzil kiritilmagan"}
+                </p>
               </Box>
             </Box>
           </Box>
