@@ -5,14 +5,18 @@ import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import Checkbox from "@mui/material/Checkbox";
 import moment from "moment";
+import { BoArticle } from "../../../types/boArticle";
+import { serverApi } from "../../lib/config";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export function TargetArticles(props: any) {
   return (
     <Stack>
-      {props.targetBoArticles?.map((article: any, index: string) => {
-        const art_image_url = "/community/shoma.jpg";
+      {props.targetBoArticles?.map((article: BoArticle) => {
+        const art_image_url = article?.art_image
+          ? `${serverApi}/${article.art_image}`
+          : "/community/shoma.jpg";
         return (
           <Link className="all_article_box" sx={{ textDecoration: "none" }}>
             <Box
@@ -27,16 +31,16 @@ export function TargetArticles(props: any) {
                   width={"35px"}
                   style={{ borderRadius: "50%", backgroundSize: "cover" }}
                 />
-                <span className="all_article_author_user">shoma</span>
+                <span className="all_article_author_user">{article?.member_data.mb_nick}</span>
               </Box>
               <Box
                 display={"flex"}
                 flexDirection={"column"}
                 sx={{ mt: "15px" }}
               >
-                <span className="all_article_title">evaluation</span>
+                <span className="all_article_title">{article?.bo_id}</span>
                 <p className="all_article_desc">
-                  Texas De Brazil zor Restaurant
+                  {article?.art_subject}
                 </p>
               </Box>
               <Box
@@ -50,29 +54,30 @@ export function TargetArticles(props: any) {
                   justifyContent={"space-between"}
                   marginRight={"14px"}
                 >
-                 <div className="article_date">22-05-15 02:08</div>
-                 <div className="evaluation_box">
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginRight: "20px",
-                  }}
-                >
-                  <Checkbox
-                    {...label}
-                    icon={<FavoriteBorder />}
-                    checkedIcon={<Favorite style={{ color: "red" }} />}
-                    checked={true}
-                  />
+                  <div className="article_date">{moment().format("YY-MM-DD HH:mm")}</div>
+                  <div className="evaluation_box">
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginRight: "20px",
+                      }}
+                    >
+                      <Checkbox
+                        {...label}
+                        icon={<FavoriteBorder />}
+                        checkedIcon={<Favorite style={{ color: "red" }} />}
+                        id={article?._id}
+                        checked={false}
+                      />
 
-                  <span>15</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <RemoveRedEyeIcon sx={{ mr: "10px" }} />
-                  <span>100</span>
-                </div>
-              </div>   
+                      <span>{article?.art_likes}</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <RemoveRedEyeIcon sx={{ mr: "10px" }} />
+                      <span>{article?.art_views}</span>
+                    </div>
+                  </div>
                 </Box>
               </Box>
             </Box>

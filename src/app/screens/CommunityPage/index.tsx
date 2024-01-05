@@ -1,5 +1,5 @@
 import { Container, Box, Stack } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tab from "@mui/material/Tab";
 import Pagination from "@mui/material/Pagination";
 import TabContext from "@mui/lab/TabContext";
@@ -11,19 +11,80 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import "../../../css/community.css";
 import { CommunityChats } from "./communityChats";
 import { TargetArticles } from "./targetArticles";
+import { BoArticle, SearchArticlesObj } from "../../../types/boArticle";
+import CommunityApiService from "../../apiServices/communityApiService";
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { retrieveTargetBoArticles } from "./selector";
+import { createSelector } from "reselect";
+import { Restaurant } from "../../../types/user";
+import { serverApi } from "../../lib/config";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../lib/sweetAlert";
+import assert from "assert";
+import { Definer } from "../../lib/Definer";
+import MemberApiService from "../../apiServices/memberApiService";
+import { useHistory } from "react-router-dom";
+import { Dispatch } from "@reduxjs/toolkit";
+import { setTargetBoArticles } from "./slice";
 
-const targetBoArticles = [1, 2, 3, 4, 5];
+// REDUX SLICE
+const actionDispatch = (dispach: Dispatch) => ({
+  setTargetBoArticles: (data: BoArticle[]) =>
+    dispach(setTargetBoArticles(data)),
+});
+
+// REDUX SELECTOR
+const targetBoArticlesRetriever = createSelector(
+  retrieveTargetBoArticles,
+  (targetBoArticles) => ({
+    targetBoArticles,
+  })
+);
 
 export function CommunityPage(props: any) {
   // INITIALIZATIONS
+  const { setTargetBoArticles } = actionDispatch(useDispatch());
+  const { targetBoArticles } = useSelector(targetBoArticlesRetriever);
+
   const [value, setValue] = React.useState("1");
+  const [searchArticlesObj, setSearchArticlesObj] = useState<SearchArticlesObj>(
+    { bo_id: "all", page: 1, limit: 1 }
+  );
+
+  useEffect(() => {
+    const communityService = new CommunityApiService();
+    communityService
+      .getTargetArticles(searchArticlesObj)
+      .then((data) => setTargetBoArticles(data))
+      .catch((err) => console.log(err));
+  }, [searchArticlesObj]);
 
   // HANDLERS
   const handleChange = (event: any, newValue: string) => {
+    searchArticlesObj.page = 1;
+    switch (newValue) {
+      case "1":
+        searchArticlesObj.bo_id = "all";
+        break;
+      case "2":
+        searchArticlesObj.bo_id = "celebrity";
+        break;
+      case "3":
+        searchArticlesObj.bo_id = "evaluation";
+        break;
+      case "4":
+        searchArticlesObj.bo_id = "story";
+        break;
+    }
+    setSearchArticlesObj({ ...searchArticlesObj });
     setValue(newValue);
   };
   const handlePaginationChange = (event: any, value: number) => {
-    console.log(value);
+    searchArticlesObj.page = value;
+    setSearchArticlesObj({ ...searchArticlesObj });
   };
   return (
     <div className="community_page">
