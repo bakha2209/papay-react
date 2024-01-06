@@ -50,5 +50,5 @@ export interface MemberPageState {
   chosenMemberBoArticles: BoArticle[];
   chosenSingleBoArticle: BoArticle | null;
   memberFollowers: Follower[];
-  memberFollowing: Following[];
+  memberFollowings: Following[];
 }

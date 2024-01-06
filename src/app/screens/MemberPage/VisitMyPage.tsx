@@ -21,9 +21,75 @@ import { MemberFollowing } from "./memberFollowing";
 import { MySettings } from "./mySettings";
 import { TuiEditor } from "../../components/tuiEditor/TuiEditor";
 import TViewer from "../../components/tuiEditor/TViewver";
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import {
+  retrieveChosenMember,
+  retrieveChosenSingleBoArticle,
+  retrieveChosenMemberBoArticles,
+} from "./selector";
+import { createSelector } from "reselect";
+import { Member } from "../../../types/user";
+import { serverApi } from "../../lib/config";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../lib/sweetAlert";
+import assert from "assert";
+import { Definer } from "../../lib/Definer";
+import MemberApiService from "../../apiServices/memberApiService";
+import { useHistory } from "react-router-dom";
+import { Dispatch } from "@reduxjs/toolkit";
+import {
+  setChosenMember,
+  setChosenMemberBoArticles,
+  setChosenSingleBoArticle,
+} from "./slice";
+import { BoArticle } from "../../../types/boArticle";
+
+// REDUX SLICE
+const actionDispatch = (dispach: Dispatch) => ({
+  setChosenMember: (data: Member) => dispach(setChosenMember(data)),
+  setChosenMemberBoArticles: (data: BoArticle[]) =>
+    dispach(setChosenMemberBoArticles(data)),
+  setChosenSingleBoArticle: (data: BoArticle) =>
+    dispach(setChosenSingleBoArticle(data)),
+});
+
+// REDUX SELECTOR
+const chosenMemberRetriever = createSelector(
+  retrieveChosenMember,
+  (chosenMember) => ({
+    chosenMember,
+  })
+);
+const chosenMemberBoArticlesRetriever = createSelector(
+  retrieveChosenSingleBoArticle,
+  (chosenMemberBoArticles) => ({
+    chosenMemberBoArticles,
+  })
+);
+const chosenSingleBoArticlesRetriever = createSelector(
+  retrieveChosenMemberBoArticles,
+  (chosenSingleBoArticles) => ({
+    chosenSingleBoArticles,
+  })
+);
 
 export function VisitMyPage(_props: any) {
   //INITIALIZIATION
+  const {
+    setChosenMember,
+    setChosenMemberBoArticles,
+    setChosenSingleBoArticle,
+  } = actionDispatch(useDispatch());
+  const { chosenMember } = useSelector(chosenMemberRetriever);
+  const { chosenMemberBoArticles } = useSelector(
+    chosenMemberBoArticlesRetriever
+  );
+  const { chosenSingleBoArticles } = useSelector(
+    chosenSingleBoArticlesRetriever
+  );
   const [value, setValue] = useState("3");
 
   // HANDLERS
@@ -84,14 +150,14 @@ export function VisitMyPage(_props: any) {
                 <TabPanel value={"4"}>
                   <Box className={"menu_name"}>Maqola Yozish</Box>
                   <Box className={"write_content"}>
-                    <TuiEditor/>
+                    <TuiEditor />
                   </Box>
                 </TabPanel>
 
                 <TabPanel value={"5"}>
                   <Box className={"menu_name"}>Tanlangan Maqola</Box>
                   <Box className={"menu_content"}>
-                    <TViewer/>
+                    <TViewer />
                   </Box>
                 </TabPanel>
 
@@ -171,7 +237,10 @@ export function VisitMyPage(_props: any) {
                     style={{ flexDirection: "column" }}
                     value={"1"}
                     component={() => (
-                      <div className={`menu_box ${value}`} onClick={() => setValue("1")}>
+                      <div
+                        className={`menu_box ${value}`}
+                        onClick={() => setValue("1")}
+                      >
                         <img src="/icons/pencil.svg" alt="" />
                         <span>Maqolalarim</span>
                       </div>
@@ -181,7 +250,10 @@ export function VisitMyPage(_props: any) {
                     style={{ flexDirection: "column" }}
                     value={"2"}
                     component={() => (
-                      <div className={`menu_box ${value}`} onClick={() => setValue("2")}>
+                      <div
+                        className={`menu_box ${value}`}
+                        onClick={() => setValue("2")}
+                      >
                         <img src="/icons/group.svg" alt="" />
                         <span>Follower</span>
                       </div>
@@ -191,7 +263,10 @@ export function VisitMyPage(_props: any) {
                     style={{ flexDirection: "column" }}
                     value={"3"}
                     component={() => (
-                      <div className={`menu_box ${value}`} onClick={() => setValue("3")}>
+                      <div
+                        className={`menu_box ${value}`}
+                        onClick={() => setValue("3")}
+                      >
                         <img src="/icons/user.svg" alt="" />
                         <span>Following</span>
                       </div>

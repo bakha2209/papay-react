@@ -6,7 +6,7 @@ const initialState: MemberPageState = {
   chosenMemberBoArticles: [],
   chosenSingleBoArticle: null,
   memberFollowers: [],
-  memberFollowing: [],
+  memberFollowings: [],
 };
 
 const memberPageSlice = createSlice({
@@ -26,7 +26,7 @@ const memberPageSlice = createSlice({
       state.memberFollowers = action.payload;
     },
     setMemberFollowings: (state, action) => {
-      state.memberFollowing = action.payload;
+      state.memberFollowings = action.payload;
     },
   },
 });
