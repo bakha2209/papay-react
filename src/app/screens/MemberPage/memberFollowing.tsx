@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Box, Container, Stack } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -23,11 +27,12 @@ import {
   setMemberFollowings
 } from "./slice";
 import { BoArticle } from "../../../types/boArticle";
-import { Follower } from "../../../types/follow";
+import { FollowSearchObj, Follower, Following } from "../../../types/follow";
+import FollowApiService from "../../apiServices/followApiService";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
-  setMemberFollowings: (data: Follower[]) =>
+  setMemberFollowings: (data: Following[]) =>
     dispach(setMemberFollowings(data)),
 });
 
@@ -39,19 +44,54 @@ const memberFollowingsRetriever = createSelector(
   })
 );
 
-const followings = [
-  { mb_nick: "botir" },
-  { mb_nick: "jonibek" },
-  { mb_nick: "larisa" },
-];
 
 export function MemberFollowing(props: any) {
+  /**INITIALIZATION */
   const { setMemberFollowings } = actionDispatch(useDispatch());
   const { memberFollowings } = useSelector(memberFollowingsRetriever);
+  const { mb_id, followRebuild, setFollowRebuild } = props;
+  const [followingsSearchObj, setFollowingsSearchObj] = useState<FollowSearchObj>(
+    {
+      page: 1,
+      limit: 5,
+      mb_id: mb_id,
+    }
+  );
+  useEffect(() => {
+    const followService = new FollowApiService();
+    followService
+      .getMemberFollowings(followingsSearchObj)
+      .then((data) => setMemberFollowings(data))
+      .catch((err) => console.log(err));
+  }, [followingsSearchObj, followRebuild]);
+
+  const unsubscribeHandler = async (e: any, id: string) => {
+    try {
+      e.stopPropagation();
+      assert.ok(localStorage.getItem("member_data"), Definer.auth_err1);
+
+      const followService = new FollowApiService();
+      await followService.unsubscribe(id);
+
+      await sweetTopSmallSuccessAlert("unsubscribed successfully", 700, false);
+      setFollowRebuild(!followRebuild);
+    } catch (err: any) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
+  const handlePaginationChange = (event: any, value: number) => {
+    followingsSearchObj.page = value;
+    setFollowingsSearchObj({ ...followingsSearchObj });
+  };
+
+  
   return (
     <Stack>
-      {followings.map((follower) => {
-        const image_url = "/icons/default_img.svg";
+      {memberFollowings?.map((following: Following) => {
+        const image_url = following?.follow_member_data?.mb_image
+        ? `${serverApi}/${following.follow_member_data.mb_image}`
+        : "/icons/default_img.svg";
         return (
           <Box className={"follow_box"}>
             <Avatar src={image_url} sx={{ width: 89, height: 89 }} />
@@ -64,8 +104,8 @@ export function MemberFollowing(props: any) {
                 height: "85%",
               }}
             >
-              <span className="username_text">USER</span>
-              <span className="name_text">{follower.mb_nick}</span>
+              <span className="username_text">{following?.follow_member_data?.mb_nick}</span>
+              <span className="name_text">{following?.follow_member_data?.mb_nick}</span>
             </div>
             {props.actions_enabled &&(
               
@@ -76,6 +116,7 @@ export function MemberFollowing(props: any) {
                     <img src="/icons/user.svg" style={{ width: "40px", marginLeft: "16px" }} />
                   }
                   className="follow_cancel_btn"
+                  onClick={(e)=> unsubscribeHandler(e,following?.follow_id)}
                 >
                   Bekor Qilish
                 </Button>
@@ -83,6 +124,32 @@ export function MemberFollowing(props: any) {
           </Box>
         );
       })}
+      <Stack
+        sx={{ my: "40px" }}
+        direction={"row"}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <Box className={"bottom_box"}>
+          <Pagination
+            count={followingsSearchObj.page >= 3 ? followingsSearchObj.page + 1 : 3}
+            page={
+              followingsSearchObj.page
+            }
+            renderItem={(item) => (
+              <PaginationItem
+                components={{
+                  previous: ArrowBackIcon,
+                  next: ArrowForwardIcon,
+                }}
+                {...item}
+                color="secondary"
+              />
+            )}
+            onChange={handlePaginationChange}
+          />
+        </Box>
+      </Stack>
     </Stack>
   );
 }

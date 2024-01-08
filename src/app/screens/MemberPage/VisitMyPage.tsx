@@ -100,6 +100,7 @@ export function VisitMyPage(props: any) {
   );
   const [value, setValue] = useState("3");
   const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
+  const [followRebuild, setFollowRebuild] = useState<boolean>(false);
   const [memberArticleSearchObj, setMemberArticleSearchObj] =
     useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 1 });
 
@@ -120,7 +121,7 @@ export function VisitMyPage(props: any) {
       .getChosenMember(verifiedMemberData?._id)
       .then((data) => setChosenMember(data))
       .catch((err) => console.log(err));
-  }, [memberArticleSearchObj, articlesRebuild]);
+  }, [memberArticleSearchObj, articlesRebuild,followRebuild]);
 
   // HANDLERS
   const handleChange = (event: any, newValue: string) => {
@@ -139,7 +140,7 @@ export function VisitMyPage(props: any) {
         .getChosenArticle(art_id)
         .then((data) => {
           setChosenSingleBoArticle(data);
-          setValue("5")
+          setValue("5");
         })
         .catch((err) => console.log(err));
     } catch (err: any) {
@@ -171,7 +172,11 @@ export function VisitMyPage(props: any) {
                     >
                       <Box className={"bottom_box"}>
                         <Pagination
-                          count={memberArticleSearchObj.limit}
+                          count={
+                            memberArticleSearchObj.page >= 3
+                              ? memberArticleSearchObj.page + 1
+                              : 3
+                          }
                           page={memberArticleSearchObj.page}
                           renderItem={(item) => (
                             <PaginationItem
@@ -192,14 +197,24 @@ export function VisitMyPage(props: any) {
                 <TabPanel value={"2"}>
                   <Box className={"menu_name"}>Followers</Box>
                   <Box className={"menu_content"}>
-                    <MemberFollowers actions_enabled={true} />
+                    <MemberFollowers
+                      actions_enabled={true}
+                      followRebuild={followRebuild}
+                      setFollowRebuild={setFollowRebuild}
+                      mb_id={props.verifiedMemberData?._id}
+                    />
                   </Box>
                 </TabPanel>
 
                 <TabPanel value={"3"}>
                   <Box className={"menu_name"}>Following</Box>
                   <Box className={"menu_content"}>
-                    <MemberFollowing actions_enabled={true} />
+                    <MemberFollowing
+                      actions_enabled={true}
+                      followRebuild={followRebuild}
+                      setFollowRebuild={setFollowRebuild}
+                      mb_id={props.verifiedMemberData?._id}
+                    />
                   </Box>
                 </TabPanel>
 
@@ -242,11 +257,22 @@ export function VisitMyPage(props: any) {
                       className="order_user_avatar"
                     />
                     <div className="order_user_icon_box">
-                      <img src="/icons/default_img.svg" alt="" />
+                      <img
+                        src={
+                          chosenMember?.mb_type === "RESTAURANT"
+                            ? "/icons/default_img.svg"
+                            : "/icons/default_img.svg"
+                        }
+                        alt=""
+                      />
                     </div>
                   </div>
-                  <span className="order_user_name">Bakha Sila</span>
-                  <span className="order_user_prof">USER</span>
+                  <span className="order_user_name">
+                    {chosenMember?.mb_nick}
+                  </span>
+                  <span className="order_user_prof">
+                    {chosenMember?.mb_type}
+                  </span>
                 </Box>
                 <Box className={"user_media_box"}>
                   <FacebookIcon />
@@ -255,10 +281,17 @@ export function VisitMyPage(props: any) {
                   <YouTubeIcon />
                 </Box>
                 <Box className={"user_media_box"}>
-                  <p className="follows">Followers: 3</p>
-                  <p className="follows">Followings: 2</p>
+                  <p className="follows">
+                    Followers: {chosenMember?.mb_subscriber_cnt}
+                  </p>
+                  <p className="follows">
+                    Followings: {chosenMember?.mb_follow_cnt}
+                  </p>
                 </Box>
-                <p className="user_desc">"Qo'shimcha ma'lumot kiritilmagan"</p>
+                <p className="user_desc">
+                  {chosenMember?.mb_description ??
+                    "Qo'shimcha ma'lumot kiritilmagan"}
+                </p>
                 <Box
                   display={"flex"}
                   justifyContent={"flex-end"}
