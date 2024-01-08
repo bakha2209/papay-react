@@ -99,7 +99,7 @@ export function VisitMyPage(props: any) {
     chosenSingleBoArticlesRetriever
   );
   const [value, setValue] = useState("3");
-  const [articlesRebuild, setArticlesRebuild]=useState<Date>(new Date())
+  const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
   const [memberArticleSearchObj, setMemberArticleSearchObj] =
     useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 1 });
 
@@ -120,7 +120,7 @@ export function VisitMyPage(props: any) {
       .getChosenMember(verifiedMemberData?._id)
       .then((data) => setChosenMember(data))
       .catch((err) => console.log(err));
-  }, [memberArticleSearchObj,articlesRebuild]);
+  }, [memberArticleSearchObj, articlesRebuild]);
 
   // HANDLERS
   const handleChange = (event: any, newValue: string) => {
@@ -137,7 +137,10 @@ export function VisitMyPage(props: any) {
       const communityService = new CommunityApiService();
       communityService
         .getChosenArticle(art_id)
-        .then((data) => setChosenSingleBoArticle(data))
+        .then((data) => {
+          setChosenSingleBoArticle(data);
+          setValue("5")
+        })
         .catch((err) => console.log(err));
     } catch (err: any) {
       console.log(err);
@@ -168,8 +171,8 @@ export function VisitMyPage(props: any) {
                     >
                       <Box className={"bottom_box"}>
                         <Pagination
-                          count={3}
-                          page={1}
+                          count={memberArticleSearchObj.limit}
+                          page={memberArticleSearchObj.page}
                           renderItem={(item) => (
                             <PaginationItem
                               components={{
@@ -210,7 +213,7 @@ export function VisitMyPage(props: any) {
                 <TabPanel value={"5"}>
                   <Box className={"menu_name"}>Tanlangan Maqola</Box>
                   <Box className={"menu_content"}>
-                    <TViewer />
+                    <TViewer chosenSingleBoArticles={chosenSingleBoArticles} />
                   </Box>
                 </TabPanel>
 
