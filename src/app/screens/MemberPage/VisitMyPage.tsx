@@ -53,6 +53,7 @@ import {
 } from "../../../types/boArticle";
 import CommunityApiService from "../../apiServices/communityApiService";
 import { PropaneSharp } from "@mui/icons-material";
+import { verifiedMemberData } from "../../apiServices/verify";
 
 // REDUX SLICE
 const actionDispatch = (dispach: Dispatch) => ({
@@ -85,7 +86,7 @@ const chosenSingleBoArticlesRetriever = createSelector(
 
 export function VisitMyPage(props: any) {
   //INITIALIZIATION
-  const { verifiedMemberData } = props;
+  
   const {
     setChosenMember,
     setChosenMemberBoArticles,
@@ -105,7 +106,7 @@ export function VisitMyPage(props: any) {
     useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 3 });
 
   useEffect(() => {
-    if (!localStorage.getItem("member_data")) {
+    if (!verifiedMemberData) {
       sweetFailureProvider("Please login first", true, true);
     }
 
@@ -201,7 +202,7 @@ export function VisitMyPage(props: any) {
                       actions_enabled={true}
                       followRebuild={followRebuild}
                       setFollowRebuild={setFollowRebuild}
-                      mb_id={props.verifiedMemberData?._id}
+                      mb_id={verifiedMemberData?._id}
                     />
                   </Box>
                 </TabPanel>
@@ -213,7 +214,7 @@ export function VisitMyPage(props: any) {
                       actions_enabled={true}
                       followRebuild={followRebuild}
                       setFollowRebuild={setFollowRebuild}
-                      mb_id={props.verifiedMemberData?._id}
+                      mb_id={verifiedMemberData?._id}
                     />
                   </Box>
                 </TabPanel>
