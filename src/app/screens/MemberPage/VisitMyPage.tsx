@@ -102,7 +102,7 @@ export function VisitMyPage(props: any) {
   const [articlesRebuild, setArticlesRebuild] = useState<Date>(new Date());
   const [followRebuild, setFollowRebuild] = useState<boolean>(false);
   const [memberArticleSearchObj, setMemberArticleSearchObj] =
-    useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 1 });
+    useState<SearchMemberArticlesObj>({ mb_id: "none", page: 1, limit: 3 });
 
   useEffect(() => {
     if (!localStorage.getItem("member_data")) {
@@ -127,7 +127,6 @@ export function VisitMyPage(props: any) {
   const handleChange = (event: any, newValue: string) => {
     setValue(newValue);
   };
-  
 
   const handlePaginationChange = (event: any, value: number) => {
     memberArticleSearchObj.page = value;
@@ -222,7 +221,7 @@ export function VisitMyPage(props: any) {
                 <TabPanel value={"4"}>
                   <Box className={"menu_name"}>Maqola Yozish</Box>
                   <Box className={"write_content"}>
-                    <TuiEditor />
+                    <TuiEditor setValue={setValue} setArticlesRebuild={setArticlesRebuild}/>
                   </Box>
                 </TabPanel>
 
@@ -325,7 +324,7 @@ export function VisitMyPage(props: any) {
                   //value={value}
                   onChange={handleChange}
                   aria-label="Vertical tabs example"
-                  sx={{ borderRight: 1, borderColor: 'divider', width: "95%" }}
+                  sx={{ borderRight: 1, borderColor: "divider", width: "95%" }}
                 >
                   <Tab
                     style={{ flexDirection: "column" }}
