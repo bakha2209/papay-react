@@ -121,12 +121,13 @@ export function VisitMyPage(props: any) {
       .getChosenMember(verifiedMemberData?._id)
       .then((data) => setChosenMember(data))
       .catch((err) => console.log(err));
-  }, [memberArticleSearchObj, articlesRebuild,followRebuild]);
+  }, [memberArticleSearchObj, articlesRebuild, followRebuild]);
 
   // HANDLERS
   const handleChange = (event: any, newValue: string) => {
     setValue(newValue);
   };
+  
 
   const handlePaginationChange = (event: any, value: number) => {
     memberArticleSearchObj.page = value;
@@ -319,15 +320,19 @@ export function VisitMyPage(props: any) {
 
               <Box className={"my_page_menu"}>
                 <TabList
+                  orientation="vertical"
+                  variant="scrollable"
+                  //value={value}
                   onChange={handleChange}
-                  aria-label="lab API tabs example"
+                  aria-label="Vertical tabs example"
+                  sx={{ borderRight: 1, borderColor: 'divider', width: "95%" }}
                 >
                   <Tab
                     style={{ flexDirection: "column" }}
                     value={"1"}
                     component={() => (
                       <div
-                        className={`menu_box ${value}`}
+                        className={`menu_box `}
                         onClick={() => setValue("1")}
                       >
                         <img src="/icons/pencil.svg" alt="" />
@@ -340,7 +345,7 @@ export function VisitMyPage(props: any) {
                     value={"2"}
                     component={() => (
                       <div
-                        className={`menu_box ${value}`}
+                        className={`menu_box `}
                         onClick={() => setValue("2")}
                       >
                         <img src="/icons/group.svg" alt="" />
