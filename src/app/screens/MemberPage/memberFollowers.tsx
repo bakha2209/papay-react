@@ -42,6 +42,7 @@ const memberFollowersRetriever = createSelector(
 
 export function MemberFollowers(props: any) {
   /**INITIALIZATION */
+  const history = useHistory();
   const { mb_id, followRebuild, setFollowRebuild } = props;
   const { setMemberFollowers } = actionDispatch(useDispatch());
   const { memberFollowers } = useSelector(memberFollowersRetriever);
@@ -81,17 +82,25 @@ export function MemberFollowers(props: any) {
       sweetErrorHandling(err).then();
     }
   };
+  const visitMemberHandler = (mb_id: string) => {
+    history.push(`/member-page/other?mb_id=${mb_id}`);
+    document.location.reload()
+  };
 
   return (
     <Stack>
       {memberFollowers.map((follower: Follower) => {
-        
         const image_url = follower?.subscriber_member_data?.mb_image
           ? `${serverApi}/${follower.subscriber_member_data.mb_image}`
           : "/icons/default_img.svg";
         return (
           <Box className={"follow_box"}>
-            <Avatar src={image_url} sx={{ width: 89, height: 89 }} />
+            <Avatar
+              src={image_url}
+              style={{ cursor: "pointer" }}
+              sx={{ width: 89, height: 89 }}
+              onClick={() => visitMemberHandler(follower?.subscriber_id)}
+            />
             <div
               style={{
                 width: "400px",
@@ -104,7 +113,11 @@ export function MemberFollowers(props: any) {
               <span className="username_text">
                 {follower?.subscriber_member_data?.mb_type}
               </span>
-              <span className="name_text">
+              <span
+                className="name_text"
+                style={{ cursor: "pointer" }}
+                onClick={() => visitMemberHandler(follower?.subscriber_id)}
+              >
                 {follower.subscriber_member_data?.mb_nick}
               </span>
             </div>
@@ -141,10 +154,10 @@ export function MemberFollowers(props: any) {
       >
         <Box className={"bottom_box"}>
           <Pagination
-            count={followersSearchObj.page >= 3 ? followersSearchObj.page + 1 : 3}
-            page={
-              followersSearchObj.page
+            count={
+              followersSearchObj.page >= 3 ? followersSearchObj.page + 1 : 3
             }
+            page={followersSearchObj.page}
             renderItem={(item) => (
               <PaginationItem
                 components={{
