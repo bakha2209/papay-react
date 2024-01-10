@@ -45,7 +45,7 @@ export function TargetArticles(props: any) {
           ? `${serverApi}/${article.art_image}`
           : "/community/shoma.jpg";
         return (
-          <Link className="all_article_box" sx={{ textDecoration: "none" }}>
+          <Link className="all_article_box" sx={{ textDecoration: "none" }} href={`/member-page/other?mb_id=${article.mb_id}&art_id=${article._id}`}>
             <Box
               className={"all_article_img"}
               sx={{ backgroundImage: `url(${art_image_url})` }}
