@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -37,33 +37,30 @@ const ModalImg = styled.img`
 export default function AuthenticationModal(props: any) {
   // INITIALIZATIONS
   const classes = useStyles();
-  let mb_nick: string = "",
-    mb_phone: number = 0,
-    mb_password: string = "";
 
+  const [mb_nick, set_mb_nick] = useState<string>("");
+  const [mb_phone, set_mb_phone] = useState<number>(0);
+  const [mb_password, set_mb_password] = useState<string>("");
   /**HANDLERS */
   const handleUsername = (e: any) => {
-    mb_nick = e.target.value;
-    console.log(mb_nick);
+    set_mb_nick(e.target.value);
   };
   const handlePhone = (e: any) => {
-    mb_phone = e.target.value;
-    console.log(mb_phone);
+    set_mb_phone(e.target.value);
   };
   const handlePassword = (e: any) => {
-    mb_password = e.target.value;
-    console.log(mb_password);
+    set_mb_password(e.target.value);
   };
 
   const handleSignupRequest = async () => {
     try {
-      const is_fulfilled = mb_nick != "" && mb_password != "" && mb_phone !=0;
+      const is_fulfilled = mb_nick != "" && mb_password != "" && mb_phone != 0;
       assert.ok(is_fulfilled, Definer.input_err1);
 
       const signup_data = {
         mb_nick: mb_nick,
         mb_password: mb_password,
-        mb_phone: mb_phone
+        mb_phone: mb_phone,
       };
 
       const memberApiService = new MemberApiService();
@@ -73,7 +70,7 @@ export default function AuthenticationModal(props: any) {
       window.location.reload();
     } catch (err) {
       console.log(err);
-      
+
       sweetErrorHandling(err).then();
     }
   };
@@ -97,6 +94,13 @@ export default function AuthenticationModal(props: any) {
       console.log(err);
       props.handleLoginClose();
       sweetErrorHandling(err).then();
+    }
+  };
+  const passwordKeyPressHandler = (e: any) => {
+    if (e.key == "Enter" && props.signUpOpen) {
+      handleSignupRequest().then();
+    } else if (e.key == "Enter" && props.loginOpen) {
+      handleLoginRequest().then();
     }
   };
 
@@ -140,6 +144,7 @@ export default function AuthenticationModal(props: any) {
               />
               <TextField
                 onChange={handlePassword}
+                onKeyPress={passwordKeyPressHandler}
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
@@ -195,6 +200,7 @@ export default function AuthenticationModal(props: any) {
               />
               <TextField
                 onChange={handlePassword}
+                onKeyPress={passwordKeyPressHandler}
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
